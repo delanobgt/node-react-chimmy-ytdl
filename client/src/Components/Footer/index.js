@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { Help as HelpIcon } from "@material-ui/icons";
 
+import ManualDialog from "./dialogs/ManualDialog";
+
 const styles = theme => ({
   wrapper: {
     width: "100vw"
@@ -26,6 +28,14 @@ const styles = theme => ({
 });
 
 class FooterIndex extends React.Component {
+  state = {};
+
+  toggleDialog = stateName => open =>
+    console.log(stateName, open) ||
+    this.setState(state => ({
+      [stateName]: open === undefined ? !Boolean(state[stateName]) : open
+    }));
+
   render() {
     const { classes } = this.props;
 
@@ -78,13 +88,12 @@ class FooterIndex extends React.Component {
                 in Medan
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={4}
-              style={{ textAlign: "right", paddingRight: "1em" }}
-            >
+            <Grid item xs={4} style={{ textAlign: "right" }}>
               <Tooltip title="How to use" placement="top">
-                <IconButton>
+                <IconButton
+                  onClick={() => this.toggleDialog("ManualDialog")(true)}
+                  style={{ marginRight: "1em" }}
+                >
                   <HelpIcon style={{ color: "silver" }} />
                 </IconButton>
               </Tooltip>
@@ -118,19 +127,23 @@ class FooterIndex extends React.Component {
                 )}
               />
             </Grid>
-            <Grid
-              item
-              xs={4}
-              style={{ textAlign: "right", paddingRight: "1em" }}
-            >
+            <Grid item xs={4} style={{ textAlign: "right" }}>
               <Tooltip title="How to use" placement="top">
-                <IconButton>
+                <IconButton
+                  onClick={() => this.toggleDialog("ManualDialog")(true)}
+                  style={{ marginRight: "1em" }}
+                >
                   <HelpIcon style={{ color: "silver" }} />
                 </IconButton>
               </Tooltip>
             </Grid>
           </Hidden>
         </Grid>
+        <ManualDialog
+          name="ManualDialog"
+          state={this.state}
+          toggleDialog={this.toggleDialog}
+        />
       </div>
     );
   }

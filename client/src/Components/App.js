@@ -4,7 +4,7 @@ import { Fade } from "react-reveal";
 import $ from "jquery";
 import classNames from "classnames";
 
-import ChimmyLoading from "../res/ezgif.gif";
+import ChimmyLoading from "../res/gif2.gif";
 import Header from "./Header";
 import SearchBar from "./SearchBar";
 import VideoViewer from "./VideoViewer";
@@ -19,6 +19,7 @@ const styles = theme => ({
   },
   mainBody: {
     overflowY: "scroll",
+    paddingTop: "1em",
     paddingBottom: "2em",
     "::-webkit-scrollbar": {
       display: "none"

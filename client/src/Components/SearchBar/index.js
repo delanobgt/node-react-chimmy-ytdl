@@ -9,7 +9,8 @@ import {
   CircularProgress,
   Typography,
   Button,
-  Divider
+  Divider,
+  IconButton
 } from "@material-ui/core";
 import {
   ArrowForward as ArrowForwardIcon,
@@ -18,6 +19,7 @@ import {
 } from "@material-ui/icons";
 import * as youtubeApi from "../../apis/youtube";
 import { Help as HelpIcon } from "@material-ui/icons";
+import { validate } from "@babel/types";
 
 const styles = theme => ({
   wrapper: {
@@ -64,41 +66,52 @@ class SearchBarIndex extends React.Component {
 
     this.setState({ url });
 
-    if (url.length) this.validateUrl(url);
+    if (url.length) {
+      if (this.timeoutMethod) clearTimeout(this.timeoutMethod);
+      this.timeoutMethod = setTimeout(() => this.validateUrl(url), 500);
+    }
   };
 
-  validateUrl = url => {
+  handleFormSubmit = e => {
+    e.preventDefault();
+    const { url } = this.state;
+    this.validateUrl(url);
+  };
+
+  handleFormClick = () => {
+    const { url } = this.state;
+    this.validateUrl(url);
+  };
+
+  validateUrl = async url => {
     const { onUrlFixed } = this.props;
 
-    if (this.timeoutMethod) clearTimeout(this.timeoutMethod);
     this.setState({ urlError: null, checkingStatus: CHECK_LOADING });
-    this.timeoutMethod = setTimeout(async () => {
-      try {
-        const { valid } = await youtubeApi.validateUrl(url);
-        if (valid) {
-          this.setState({ fixedUrl: url, checkingStatus: CHECK_VALID });
-          if (onUrlFixed) onUrlFixed(url);
-          this.loadUrl(url);
-        } else {
-          this.setState({
-            urlError: {
-              type: "retry",
-              message: "Invalid url! Make sure you copy the whole url."
-            },
-            checkingStatus: CHECK_ERROR
-          });
-        }
-      } catch (error) {
-        console.log({ error });
+    try {
+      const { valid } = await youtubeApi.validateUrl(url);
+      if (valid) {
+        this.setState({ fixedUrl: url, checkingStatus: CHECK_VALID });
+        if (onUrlFixed) onUrlFixed(url);
+        this.loadUrl(url);
+      } else {
         this.setState({
           urlError: {
-            type: "retry",
-            message: "Network error."
+            type: "plain",
+            message: "Invalid url. Make sure you copy the whole url."
           },
           checkingStatus: CHECK_ERROR
         });
       }
-    }, 1000);
+    } catch (error) {
+      console.log({ error });
+      this.setState({
+        urlError: {
+          type: "plain",
+          message: "Network error. PLease try again."
+        },
+        checkingStatus: CHECK_ERROR
+      });
+    }
   };
 
   loadUrl = async url => {
@@ -108,6 +121,7 @@ class SearchBarIndex extends React.Component {
       if (onStartLoadingUrl) onStartLoadingUrl(url);
       const basicInfo = await youtubeApi.getBasicInfo(url);
       if (onFinishLoadingUrl) onFinishLoadingUrl(url, basicInfo);
+      this.setState({ checkingStatus: CHECK_IDLE });
     } catch (error) {
       console.log({ error });
     }
@@ -122,26 +136,34 @@ class SearchBarIndex extends React.Component {
     return (
       <div className="main-wrapper">
         <Paper className={classNames("paper-search")} elevation={3}>
-          <input
-            type="text"
-            id="paper_search"
-            className={classNames("txt-search")}
-            placeholder="Paste YTB url here.."
-            onChange={this.handleUrlChange}
-            onFocus={() => this.setState({})}
-            onBlur={this.onBlur}
-            value={this.state.url}
-          />
+          <form onSubmit={this.handleFormSubmit} style={{ width: "100%" }}>
+            <input
+              type="text"
+              id="paper_search"
+              className={classNames("txt-search")}
+              placeholder="Paste YTB url here.."
+              onChange={this.handleUrlChange}
+              onFocus={() => this.setState({})}
+              onBlur={this.onBlur}
+              value={this.state.url}
+              disabled={checkingStatus === CHECK_LOADING}
+            />
+          </form>
           <Divider className={classes.divider} />
-          <div style={{ margin: "0 0.85em" }}>
+          <div>
             {checkingStatus === CHECK_IDLE ? (
-              <ArrowForwardIcon style={{ color: "cornflowerblue" }} />
+              <IconButton
+                onClick={this.handleFormClick}
+                style={{ margin: "0 0.25em" }}
+              >
+                <ArrowForwardIcon style={{ color: "cornflowerblue" }} />
+              </IconButton>
             ) : checkingStatus === CHECK_LOADING ? (
-              <CircularProgress size={24} />
+              <CircularProgress size={22} style={{ margin: "0 1.2em" }} />
             ) : checkingStatus === CHECK_ERROR ? (
-              <CloseIcon style={{ color: "red" }} />
+              <CloseIcon style={{ color: "red", margin: "0 0.75em" }} />
             ) : checkingStatus === CHECK_VALID ? (
-              <CheckIcon style={{ color: "limegreen" }} />
+              <CheckIcon style={{ color: "limegreen", margin: "0 0.75em" }} />
             ) : null}
           </div>
         </Paper>
@@ -159,27 +181,6 @@ class SearchBarIndex extends React.Component {
                 style={{ color: "red" }}
               >
                 {urlError.message}
-              </Typography>
-            ) : urlError.type === "retry" ? (
-              <Typography
-                variant="subtitle1"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "red"
-                }}
-              >
-                Network error! Please{" "}
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  style={{ marginLeft: "0.5em" }}
-                  onClick={() => this.validateUrl(url)}
-                >
-                  Retry
-                </Button>
               </Typography>
             ) : null)}
         </div>
