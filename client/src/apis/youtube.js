@@ -3,7 +3,8 @@ import axios from "axios";
 axios.defaults.timeout = 60 * 4 * 1000;
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_YOUTUBE_API_BASE_URL + "/youtube"
+  baseURL: `${process.env.REACT_APP_YOUTUBE_API_BASE_URL ||
+    window.location.origin}/youtube`
 });
 
 export const validateUrl = async url => {
