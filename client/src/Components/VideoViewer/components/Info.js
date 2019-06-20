@@ -31,9 +31,8 @@ class VideoViewerIndex extends React.Component {
   render() {
     const { info, classes } = this.props;
 
-    const videoDownloadUrl = `${
-      process.env.REACT_APP_YOUTUBE_API_BASE_URL
-    }/youtube/download?${queryString.stringify({
+    const videoDownloadUrl = `${process.env.REACT_APP_YOUTUBE_API_BASE_URL ||
+      window.location.origin}/youtube/download?${queryString.stringify({
       url: info.video_url
     })}`;
     return (
