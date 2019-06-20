@@ -1,0 +1,35 @@
+{
+  "name": "node-react-chimmy-youtube-grabber",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm run start-dev",
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "start-dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "exceljs": "^1.12.1",
+    "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
+    "lodash": "^4.17.11",
+    "method-override": "^3.0.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.11",
+    "morgan": "^1.9.1",
+    "nodemailer": "^6.2.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^2.2.0",
+    "ytdl-core": "^0.29.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

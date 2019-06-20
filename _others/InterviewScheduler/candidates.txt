@@ -1,0 +1,282 @@
+[
+  {
+    "nim": "03081180007",
+    "name": "Calvin Yuslianto",
+    "classGroup": "18SI1",
+    "lineId": "wabolineid",
+    "positions": [
+      "Member of Programming Dept"
+    ]
+  },
+  {
+    "nim": "03081180005",
+    "name": "Erick Suliegna",
+    "classGroup": "18SI1",
+    "lineId": "erick329",
+    "positions": [
+      "HOD Design",
+      "HOD Internal"
+    ]
+  },
+  {
+    "nim": "03081180027",
+    "name": "Kevin Lauwren",
+    "classGroup": "18SI1",
+    "lineId": "kevin_lauwren",
+    "positions": [
+      "HOD Internal",
+      "HOD External"
+    ]
+  },
+  {
+    "nim": "03081180003",
+    "name": "Edwin",
+    "classGroup": "18SI1",
+    "lineId": "edwinnarto1234",
+    "positions": [
+      "Member of Design",
+      "Member of External"
+    ]
+  },
+  {
+    "nim": "03081180009",
+    "name": "Hartanto Margono",
+    "classGroup": "18SI1",
+    "lineId": "hartanto_wu",
+    "positions": [
+      "HOD Design"
+    ]
+  },
+  {
+    "nim": "03081180010",
+    "name": "Celine Nathasya",
+    "classGroup": "18SI1",
+    "lineId": "celline_lh",
+    "positions": [
+      "HOD External",
+      "HOD Programming"
+    ]
+  },
+  {
+    "nim": "03081180025",
+    "name": "Wilson Laures",
+    "classGroup": "18SI1",
+    "lineId": "wilsonlauress",
+    "positions": [
+      "HOD External"
+    ]
+  },
+  {
+    "nim": "03081180016",
+    "name": "Ferdy Setiawan",
+    "classGroup": "18SI1",
+    "lineId": "ferdysetia1",
+    "positions": [
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03081180032",
+    "name": "Carissa Sherilyn",
+    "classGroup": "18SI1",
+    "lineId": "carissasherilyn",
+    "positions": [
+      "HOD External",
+      "HOD Internal"
+    ]
+  },
+  {
+    "nim": "03081180008",
+    "name": "Leon Lawi",
+    "classGroup": "18SI1",
+    "lineId": "lawileon",
+    "positions": [
+      "Vice President",
+      "External"
+    ]
+  },
+  {
+    "nim": "03082180063",
+    "name": "Alessandro",
+    "classGroup": "18TI1",
+    "lineId": "sandroales10",
+    "positions": [
+      "HOD Design"
+    ]
+  },
+  {
+    "nim": "03082180033",
+    "name": "Kevin",
+    "classGroup": "18TI1",
+    "lineId": "the_none2",
+    "positions": [
+      "Member of Programming"
+    ]
+  },
+  {
+    "nim": "03082180054",
+    "name": "Evant Jordy",
+    "classGroup": "18TI1",
+    "lineId": "imejll",
+    "positions": [
+      "Member of Programming",
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03082180020",
+    "name": "Evelyn Wiliem",
+    "classGroup": "18TI1",
+    "lineId": "evelynwiliem",
+    "positions": [
+      "Member of External",
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03082180038",
+    "name": "Cynthia Chandra",
+    "classGroup": "18TI1",
+    "lineId": "cynthia..c",
+    "positions": [
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03082180055",
+    "name": "Felix Montalfu",
+    "classGroup": "18TI1",
+    "lineId": "montalfu90",
+    "positions": [
+      "Member of Programming",
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03082180018",
+    "name": "Dustin Jourdan",
+    "classGroup": "18TI1",
+    "lineId": "dustinjourdan",
+    "positions": [
+      "HOD External",
+      "HOD Programming"
+    ]
+  },
+  {
+    "nim": "03082180053",
+    "name": "Bryan Tandio",
+    "classGroup": "18TI1",
+    "lineId": "bryan_tan10",
+    "positions": [
+      "HOD External",
+      "HOD Design"
+    ]
+  },
+  {
+    "nim": "03082180043",
+    "name": "William Irtanto",
+    "classGroup": "18TI1",
+    "lineId": "williamirtanto",
+    "positions": [
+      "HOD Design",
+      "HOD Programming"
+    ]
+  },
+  {
+    "nim": "03082180005",
+    "name": "Farandi",
+    "classGroup": "18TI2",
+    "lineId": "farandisutanto1890",
+    "positions": [
+      "HOD Design"
+    ]
+  },
+  {
+    "nim": "03082180016",
+    "name": "Steven Putra Tanoto",
+    "classGroup": "18TI2",
+    "lineId": "steventanotoo",
+    "positions": [
+      "HOD Internal",
+      "Sekretaris"
+    ]
+  },
+  {
+    "nim": "03082180004",
+    "name": "Andika Adhinata",
+    "classGroup": "18TI2",
+    "lineId": "andika_adhi",
+    "positions": [
+      "BPH",
+      "Programming"
+    ]
+  },
+  {
+    "nim": "03082180022",
+    "name": "William Sanjaya",
+    "classGroup": "18TI2",
+    "lineId": "williamluo31",
+    "positions": [
+      "Member of Internal",
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03082180008",
+    "name": "Kevin Yuslianto",
+    "classGroup": "18TI2",
+    "lineId": "iamky_duelist",
+    "positions": [
+      "Member of Programming",
+      "Member of Internal"
+    ]
+  },
+  {
+    "nim": "03082180025",
+    "name": "Kevin Fericco",
+    "classGroup": "18TI2",
+    "lineId": "kevin_fericcoo",
+    "positions": [
+      "HOD Design"
+    ]
+  },
+  {
+    "nim": "03082180003",
+    "name": "Christina",
+    "classGroup": "18TI2",
+    "lineId": "chris_limo5",
+    "positions": [
+      "Member of Internal",
+      "Member of Design"
+    ]
+  },
+  {
+    "nim": "03082180040",
+    "name": "Erlina",
+    "classGroup": "18TI2",
+    "lineId": "erlina.ngg",
+    "positions": [
+      "Member of Programming",
+      "Member of External"
+    ]
+  },
+  {
+    "nim": "03082180026",
+    "name": "Eko Putra Wijaya",
+    "classGroup": "18TI2",
+    "lineId": "otomiho95",
+    "positions": [
+      "Member of Programming"
+    ]
+  },
+  {
+    "nim": "03082180067",
+    "name": "Ramiro Gunady",
+    "classGroup": "18TI3",
+    "lineId": "ramiro20",
+    "positions": [
+      "Member of Programming",
+      "Member of Internal"
+    ]
+  }
+]

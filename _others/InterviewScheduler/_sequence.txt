@@ -1,0 +1,33 @@
+Possible Schedule
+-----------------
+ 1. 09:00 - 09:14     Farandi              18TI2    HOD Design
+ 2. 09:15 - 09:29     Steven Putra Tanoto  18TI2    HOD Internal, Sekretaris
+ 3. 09:30 - 09:44     William Sanjaya      18TI2    Member of Internal, Member of Design
+ 4. 09:45 - 09:59     Kevin Fericco        18TI2    HOD Design
+ 5. 10:00 - 10:14     Edwin                18SI1    Member of Design, Member of External
+ 6. 10:15 - 10:29     Erick Suliegna       18SI1    HOD Design, HOD Internal
+ 7. 10:30 - 10:44     Kevin Lauwren        18SI1    HOD Internal, HOD External
+ 8. 10:45 - 10:59     Calvin Yuslianto     18SI1    Member of Programming Dept
+ 9. 11:00 - 11:14     Celine Nathasya      18SI1    HOD External, HOD Programming
+10. 11:15 - 11:29     Andika Adhinata      18TI2    BPH, Programming
+11. 11:30 - 11:44     Kevin Yuslianto      18TI2    Member of Programming, Member of Internal
+12. 11:45 - 11:59     Eko Putra Wijaya     18TI2    Member of Programming
+--. BREAK (12:00 - 12:59)
+13. 13:00 - 13:14     Ramiro Gunady        18TI3    Member of Programming, Member of Internal
+14. 13:15 - 13:29     William Irtanto      18TI1    HOD Design, HOD Programming
+15. 13:30 - 13:44     Kevin                18TI1    Member of Programming
+16. 13:45 - 13:59     Evant Jordy          18TI1    Member of Programming, Member of Design
+17. 14:00 - 14:14     Felix Montalfu       18TI1    Member of Programming, Member of Design
+18. 14:15 - 14:29     Dustin Jourdan       18TI1    HOD External, HOD Programming
+19. 14:30 - 14:44     Erlina               18TI2    Member of Programming, Member of External
+20. 14:45 - 14:59     Christina            18TI2    Member of Internal, Member of Design
+21. 15:00 - 15:14     Hartanto Margono     18SI1    HOD Design
+22. 15:15 - 15:29     Wilson Laures        18SI1    HOD External
+23. 15:30 - 15:44     Ferdy Setiawan       18SI1    Member of Design
+24. 15:45 - 15:59     Carissa Sherilyn     18SI1    HOD External, HOD Internal
+25. 16:00 - 16:14     Leon Lawi            18SI1    Vice President, External
+26. 16:15 - 16:29     Alessandro           18TI1    HOD Design
+27. 16:30 - 16:44     Evelyn Wiliem        18TI1    Member of External, Member of Design
+28. 16:45 - 16:59     Cynthia Chandra      18TI1    Member of Design
+29. 17:00 - 17:14     Bryan Tandio         18TI1    HOD External, HOD Design
+
