@@ -49,34 +49,100 @@ server.listen(PORT, () => {
 });
 
 (async () => {
-  const fs = require("fs");
   const _ = require("lodash");
   const ytdl = require("ytdl-core");
+  const util = require("util");
+  const fs = require("fs");
+  const path = require("path");
 
-  const url = "https://www.youtube.com/watch?v=FfgrV7i5jrA";
-  const response = await ytdl.getBasicInfo(url);
-  const obj = response;
-  // const obj = _.map(response.formats, fmt => fmt.type);
-  // const obj = ytdl.filterFormats(response.formats, "video");
-  console.log(obj.length);
+  const fsExist = util.promisify(fs.exists);
+  const fsMkdir = util.promisify(fs.mkdir);
+
+  return;
+
+  const url = "https://www.youtube.com/watch?v=HuC2MUmQaG4";
+  const basicInfo = await ytdl.getBasicInfo(url);
   const keys = [
-    "timestamp",
-    "player_response",
+    "fexp",
+    "gapi_hint_params",
+    "ssl",
+    "innertube_api_version",
+    "csi_page_type",
+    "c",
+    "watermark",
     "status",
-    "video_id",
-    "title",
-    "author",
+    "ucid",
+    "hl",
+    "account_playback_token",
+    "fflags",
+    "enablecsi",
+    "enabled_engage_types",
+    "vss_host",
+    "root_ve_type",
+    "innertube_api_key",
     "host_language",
-    "length_seconds",
-    "formats",
-    "published",
-    "description",
+    "cver",
+    "timestamp",
+    "streamingData",
+    "innertube_context_client_version",
+    "csn",
+    "cr",
     "media",
-    "video_url",
     "age_restricted",
-    "html5player"
+    "",
+    "",
+    ""
   ];
-  fs.writeFile("basic_info.txt", JSON.stringify(obj, 2, 2), err =>
-    console.log(err)
+  const obj = _.omit(basicInfo, keys);
+  obj.formats = _.chain(obj.formats)
+    // .filter(f => f.type.includes("mp4") && f.quality_label)
+    // .filter(
+    //   f =>
+    //     f.type.includes("mp4") && f.type.includes("video") && !f.quality_label
+    // )
+    .filter(f => f.type.includes("mp4") && f.type.includes("video"))
+    // .uniqBy(f => f.quality_label)
+    // .sort(f => -Number(f.quality_label.slice(0, -1)))
+    .value();
+  console.log(obj.formats);
+
+  fs.writeFile("basic_info.txt", JSON.stringify(obj, 2, 2), err => {
+    if (err) console.log(err);
+  });
+
+  if (!(await fsExist("downloads"))) await fsMkdir("downloads");
+  if (!(await fsExist(path.join("downloads", obj.video_id))))
+    await fsMkdir(path.join("downloads", obj.video_id));
+
+  console.log("start downloading");
+  const promises = _.map(
+    obj.formats,
+    f =>
+      new Promise(async (resolve, reject) => {
+        try {
+          const filename = path.join(
+            "downloads",
+            `${obj.video_id}`,
+            `${obj.video_id}_${f.quality || f.quality_label}.mp4`
+          );
+          console.log("start", filename);
+
+          ytdl(obj.video_url, { format: f })
+            .pipe(fs.createWriteStream(filename))
+            .on("finish", () => {
+              console.log("finish", filename);
+              resolve();
+            })
+            .on("error", error => {
+              console.log("what", { error });
+            });
+        } catch (error) {
+          console.log({ error });
+          reject(error);
+        }
+      })
   );
+  console.log("there are", promises.length, "promises");
+  await Promise.all(promises);
+  console.log("finish downloading");
 })();

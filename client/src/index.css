@@ -16,3 +16,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@font-face {
+  font-family: "Nexa";
+  src: url("res/fonts/Nexa-Light.otf");
+}
+@font-face {
+  font-family: "Nexa";
+  src: url("res/fonts/Nexa-Bold.otf");
+  font-weight: bold;
+}

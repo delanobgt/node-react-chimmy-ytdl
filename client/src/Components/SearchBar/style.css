@@ -22,7 +22,8 @@
   outline: none;
   flex: 1;
   width: 85%;
-  font-size: 20 px;
+  height: 2.4em;
+  font-size: 18px;
   border: 0;
   margin-left: 1.5em;
 }

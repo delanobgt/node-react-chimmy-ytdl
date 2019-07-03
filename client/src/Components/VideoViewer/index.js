@@ -25,12 +25,14 @@ class VideoViewerIndex extends React.Component {
   render() {
     const { info, classes } = this.props;
 
+    if (!info) return null;
+
     const thumbnailUrl = _.last(
       info.player_response.videoDetails.thumbnail.thumbnails
     ).url;
 
     return (
-      <Fragment>
+      <div>
         <Hidden smDown>
           <Grid container className={classes.root} justify="center">
             <Grid
@@ -79,7 +81,7 @@ class VideoViewerIndex extends React.Component {
             </Grid>
           </Grid>
         </Hidden>
-      </Fragment>
+      </div>
     );
   }
 }
