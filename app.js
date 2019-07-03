@@ -187,10 +187,10 @@ server.listen(PORT, () => {
   // });
 
   // return;
-  // const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+  const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
   const ffmpeg = require("fluent-ffmpeg");
-  // ffmpeg.setFfmpegPath(ffmpegPath);
-  ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+  ffmpeg.setFfmpegPath(ffmpegPath);
+  // ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
 
   // {
   //   const outPath = "./song.mp3";

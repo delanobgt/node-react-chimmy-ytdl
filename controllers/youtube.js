@@ -5,10 +5,10 @@ const util = require("util");
 const fs = require("fs");
 const path = require("path");
 
-// const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
-// ffmpeg.setFfmpegPath(ffmpegPath);
-ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+ffmpeg.setFfmpegPath(ffmpegPath);
+// ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
 
 const fsExist = util.promisify(fs.exists);
 const fsMkdir = util.promisify(fs.mkdir);
