@@ -37,8 +37,8 @@ const styles = theme => ({
   }
 });
 
-const videoFormats = ["mp4", "avi", "flv"];
-const audioFormats = ["mp3", "wav", "ogg"];
+const videoFormats = ["mp4", "m4v", "mov", "flv", "avi", "mpg", "wmv"];
+const audioFormats = ["mp3", "ogg", "flac", "wav"];
 
 const QRCodeIcon = props => (
   <SvgIcon {...props}>
@@ -70,8 +70,16 @@ class VideoViewerIndex extends React.Component {
     const { tabIndex, videoFormat } = this.state;
 
     const videoDownloadUrl = `${process.env.REACT_APP_YOUTUBE_API_BASE_URL ||
-      window.location.origin}/youtube/download?${queryString.stringify({
-      url: info.video_url
+      window.location.origin}/youtube/download/video?${queryString.stringify({
+      url: info.video_url,
+      format: "mp4",
+      q: "medium"
+    })}`;
+
+    const audioDownloadUrl = `${process.env.REACT_APP_YOUTUBE_API_BASE_URL ||
+      window.location.origin}/youtube/download/audio?${queryString.stringify({
+      url: info.video_url,
+      format: "mp3"
     })}`;
     return (
       <div>
@@ -109,7 +117,7 @@ class VideoViewerIndex extends React.Component {
             <br />
             <ChimButton href={videoDownloadUrl} type="video" label="360p" />
             <ChimButton
-              href={videoDownloadUrl}
+              href={audioDownloadUrl}
               style={{ marginLeft: "1em" }}
               type="audio"
               label="128kbps"
@@ -166,6 +174,16 @@ class VideoViewerIndex extends React.Component {
                       {_.chain(info.formats)
                         .filter(f => f.quality_label)
                         .map(f => {
+                          const videoDownloadUrl = `${process.env
+                            .REACT_APP_YOUTUBE_API_BASE_URL ||
+                            window.location
+                              .origin}/youtube/download/video?${queryString.stringify(
+                            {
+                              url: info.video_url,
+                              format: videoFormat,
+                              q: f.quality_label
+                            }
+                          )}`;
                           return (
                             <ChimButton
                               style={{ marginRight: "1em", marginTop: "1em" }}
@@ -184,9 +202,19 @@ class VideoViewerIndex extends React.Component {
                   <div>
                     {_.chain(audioFormats)
                       .map(f => {
+                        const audioDownloadUrl = `${process.env
+                          .REACT_APP_YOUTUBE_API_BASE_URL ||
+                          window.location
+                            .origin}/youtube/download/audio?${queryString.stringify(
+                          {
+                            url: info.video_url,
+                            format: f
+                          }
+                        )}`;
                         return (
                           <ChimButton
                             style={{ marginRight: "1em", marginTop: "1em" }}
+                            href={audioDownloadUrl}
                             key={f}
                             type="audio"
                             label={f}

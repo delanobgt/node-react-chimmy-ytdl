@@ -26,6 +26,7 @@ class ChimButton extends Component {
         href={href}
         style={style}
         className={classes.button}
+        download="download"
       >
         <img
           src={type == "audio" ? MP3Logo : MP4Logo}

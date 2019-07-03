@@ -104,7 +104,7 @@ class FooterIndex extends React.Component {
                   onClick={() => this.toggleDialog("ManualDialog")(true)}
                   // style={{ marginRight: "1em" }}
                 >
-                  <QRScannerIcon style={{ color: "silver" }} />
+                  <QRScannerIcon style={{ color: "" }} />
                 </IconButton>
               </Tooltip>
               <Tooltip title="How to use" placement="top">
@@ -112,7 +112,7 @@ class FooterIndex extends React.Component {
                   onClick={() => this.toggleDialog("ManualDialog")(true)}
                   style={{ marginRight: "0.5em" }}
                 >
-                  <HelpIcon style={{ color: "silver" }} />
+                  <HelpIcon style={{ color: "" }} />
                 </IconButton>
               </Tooltip>
             </Grid>
@@ -151,7 +151,7 @@ class FooterIndex extends React.Component {
                   onClick={() => this.toggleDialog("ManualDialog")(true)}
                   // style={{ marginRight: "1em" }}
                 >
-                  <QRScannerIcon style={{ color: "silver" }} />
+                  <QRScannerIcon style={{ color: "" }} />
                 </IconButton>
               </Tooltip>
               <Tooltip title="How to use" placement="top">
@@ -159,7 +159,7 @@ class FooterIndex extends React.Component {
                   onClick={() => this.toggleDialog("ManualDialog")(true)}
                   style={{ marginRight: "1em" }}
                 >
-                  <HelpIcon style={{ color: "silver" }} />
+                  <HelpIcon style={{ color: "" }} />
                 </IconButton>
               </Tooltip>
             </Grid>
