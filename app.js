@@ -39,7 +39,7 @@ const saveParams = (req, res, next) => {
 app.use((req, res, next) => {
   req.locals = {
     originUrl: req.get("origin"),
-    hostUrl: `https://${req.get("host")}`
+    hostUrl: `http://${req.get("host")}`
   };
   next();
 });

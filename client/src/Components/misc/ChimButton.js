@@ -17,10 +17,11 @@ const styles = theme => ({
 
 class ChimButton extends Component {
   render() {
-    const { classes, type, label, href, style } = this.props;
+    const { classes, type, label, href, style, onClick } = this.props;
 
     return (
       <Button
+        onClick={onClick}
         color="primary"
         variant="contained"
         href={href}

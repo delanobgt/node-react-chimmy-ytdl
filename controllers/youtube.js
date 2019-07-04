@@ -64,6 +64,8 @@ exports.getBasicInfo = async (req, res) => {
 };
 
 exports.downloadVideo = async (req, res) => {
+  res.setTimeout(4 * 60 * 1000);
+
   const { url, format, q } = req.query;
   console.log("downloadVideo", { url, format, q });
 
@@ -87,7 +89,11 @@ exports.downloadVideo = async (req, res) => {
     .on("finish", () => {
       if (q === "medium") {
         console.log("if medium");
-        res.redirect(`/youtube/download/files?filename=${videoFileName}`);
+        res.json({
+          downloadUrl: `${
+            req.locals.hostUrl
+          }/youtube/download/files?filename=${videoFileName}`
+        });
       } else {
         console.log("else");
         const songFileName = `${basicInfo.title}.mp3`;
@@ -141,20 +147,24 @@ exports.downloadVideo = async (req, res) => {
                       outFileName
                     );
                     if (format === "mp4") {
-                      res.redirect(
-                        `/youtube/download/files?filename=${outFileName}`
-                      );
+                      res.json({
+                        downloadUrl: `${
+                          req.locals.hostUrl
+                        }/youtube/download/files?filename=${outFileName}`
+                      });
                     } else {
-                      ffmpeg(outFilePath)
+                      ffmpeg(combinedFilePath)
                         .toFormat(format)
                         .on("error", function(err) {
                           console.log("outFilePath", err);
                         })
                         .on("end", function() {
                           console.log("conversion ended");
-                          res.redirect(
-                            `/youtube/download/files?filename=${outFileName}`
-                          );
+                          res.json({
+                            downloadUrl: `${
+                              req.locals.hostUrl
+                            }/youtube/download/files?filename=${outFileName}`
+                          });
                         })
                         .save(outFilePath);
                     }
@@ -168,6 +178,8 @@ exports.downloadVideo = async (req, res) => {
 };
 
 exports.downloadAudio = async (req, res) => {
+  res.setTimeout(4 * 60 * 1000);
+
   const { url, format } = req.query;
   console.log("downloadAudio", { url, format });
 
@@ -205,7 +217,11 @@ exports.downloadAudio = async (req, res) => {
               "Content-Disposition",
               `attachment; filename="${songFileName}"`
             );
-            res.redirect(`/youtube/download/files?filename=${songFileName}`);
+            res.json({
+              downloadUrl: `${
+                req.locals.hostUrl
+              }/youtube/download/files?filename=${songFileName}`
+            });
           } else {
             console.log("if " + format);
 
@@ -226,7 +242,11 @@ exports.downloadAudio = async (req, res) => {
                   "Content-Disposition",
                   `attachment; filename="${outFileName}"`
                 );
-                res.redirect(`/youtube/download/files?filename=${outFileName}`);
+                res.json({
+                  downloadUrl: `${
+                    req.locals.hostUrl
+                  }/youtube/download/files?filename=${outFileName}`
+                });
               })
               .save(outFilePath);
           }

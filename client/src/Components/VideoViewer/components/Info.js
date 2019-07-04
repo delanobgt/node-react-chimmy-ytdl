@@ -27,6 +27,7 @@ import {
 import queryString from "query-string";
 
 import ChimButton from "../../misc/ChimButton";
+import DownloadDialog from "../dialogs/DownloadDialog";
 
 const styles = theme => ({
   info: {
@@ -60,7 +61,6 @@ class VideoViewerIndex extends React.Component {
   };
 
   toggleDialog = stateName => open =>
-    console.log(stateName, open) ||
     this.setState(state => ({
       [stateName]: open === undefined ? !Boolean(state[stateName]) : open
     }));
@@ -115,9 +115,21 @@ class VideoViewerIndex extends React.Component {
               Recommended format
             </Typography>
             <br />
-            <ChimButton href={videoDownloadUrl} type="video" label="360p" />
             <ChimButton
-              href={audioDownloadUrl}
+              onClick={() =>
+                this.toggleDialog("DownloadDialog")({
+                  url: videoDownloadUrl
+                })
+              }
+              type="video"
+              label="360p"
+            />
+            <ChimButton
+              onClick={() =>
+                this.toggleDialog("DownloadDialog")({
+                  url: audioDownloadUrl
+                })
+              }
               style={{ marginLeft: "1em" }}
               type="audio"
               label="128kbps"
@@ -188,9 +200,13 @@ class VideoViewerIndex extends React.Component {
                             <ChimButton
                               style={{ marginRight: "1em", marginTop: "1em" }}
                               key={f.quality_label}
-                              href={videoDownloadUrl}
                               type="video"
                               label={f.quality_label}
+                              onClick={() =>
+                                this.toggleDialog("DownloadDialog")({
+                                  url: videoDownloadUrl
+                                })
+                              }
                             />
                           );
                         })
@@ -214,10 +230,14 @@ class VideoViewerIndex extends React.Component {
                         return (
                           <ChimButton
                             style={{ marginRight: "1em", marginTop: "1em" }}
-                            href={audioDownloadUrl}
                             key={f}
                             type="audio"
                             label={f}
+                            onClick={() =>
+                              this.toggleDialog("DownloadDialog")({
+                                url: audioDownloadUrl
+                              })
+                            }
                           />
                         );
                       })
@@ -228,6 +248,14 @@ class VideoViewerIndex extends React.Component {
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
+
+        {this.state["DownloadDialog"] && (
+          <DownloadDialog
+            state={this.state}
+            toggleDialog={this.toggleDialog}
+            name="DownloadDialog"
+          />
+        )}
       </div>
     );
   }
