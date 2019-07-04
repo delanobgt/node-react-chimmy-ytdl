@@ -1229,6 +1229,11 @@ html-entities@^1.1.3:
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
   integrity sha1-DfKTUfByEWNRXfueVUPl9u7VFi8=
 
+http-delayed-response@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/http-delayed-response/-/http-delayed-response-0.0.4.tgz#6ffabdb055faa4fdb39d0de7d28cfdbffbb4920b"
+  integrity sha1-b/q9sFX6pP2znQ3n0oz9v/u0kgs=
+
 http-errors@1.7.2, http-errors@~1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.2.tgz#4f5029cf13239f31036e5b2e55292bcfbcc85c8f"

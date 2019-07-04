@@ -4,6 +4,7 @@ const ytdl = require("ytdl-core");
 const util = require("util");
 const fs = require("fs");
 const path = require("path");
+const DelayedResponse = require("http-delayed-response");
 
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
@@ -65,6 +66,9 @@ exports.getBasicInfo = async (req, res) => {
 
 exports.downloadVideo = async (req, res) => {
   res.setTimeout(4 * 60 * 1000);
+  const delayed = new DelayedResponse(req, res);
+  delayed.json();
+  delayed.start();
 
   const { url, format, q } = req.query;
   console.log("downloadVideo", { url, format, q });
@@ -89,7 +93,7 @@ exports.downloadVideo = async (req, res) => {
         console.log("videoFilePath", { error });
       })
       .on("finish", () => {
-        res.json({
+        delayed.end(null, {
           downloadUrl: `${
             req.locals.hostUrl
           }/youtube/download/files?filename=${videoFileName}`
@@ -168,7 +172,7 @@ exports.downloadVideo = async (req, res) => {
       })
       .on("end", function() {
         console.log("finished merge");
-        res.json({
+        delayed.end(null, {
           downloadUrl: `${
             req.locals.hostUrl
           }/youtube/download/files?filename=${combinedFileName}`
@@ -180,6 +184,9 @@ exports.downloadVideo = async (req, res) => {
 
 exports.downloadAudio = async (req, res) => {
   res.setTimeout(4 * 60 * 1000);
+  const delayed = new DelayedResponse(req, res);
+  delayed.json();
+  delayed.start();
 
   const { url, format } = req.query;
   console.log("downloadAudio", { url, format });
@@ -218,7 +225,7 @@ exports.downloadAudio = async (req, res) => {
               "Content-Disposition",
               `attachment; filename="${songFileName}"`
             );
-            res.json({
+            delayed.end(null, {
               downloadUrl: `${
                 req.locals.hostUrl
               }/youtube/download/files?filename=${songFileName}`
@@ -243,7 +250,7 @@ exports.downloadAudio = async (req, res) => {
                   "Content-Disposition",
                   `attachment; filename="${outFileName}"`
                 );
-                res.json({
+                delayed.end(null, {
                   downloadUrl: `${
                     req.locals.hostUrl
                   }/youtube/download/files?filename=${outFileName}`
