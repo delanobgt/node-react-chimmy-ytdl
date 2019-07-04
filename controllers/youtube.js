@@ -79,102 +79,103 @@ exports.downloadVideo = async (req, res) => {
 
   const videoFileName = `${basicInfo.title}.mp4`;
   const videoFilePath = path.join(".", "downloads", videoFileName);
-  ytdl(basicInfo.video_url, {
-    format: _.find(basicInfo.formats, f => f.quality)
-  })
-    .pipe(fs.createWriteStream(videoFilePath))
-    .on("error", error => {
-      console.log("videoFilePath", { error });
+
+  if (q === "medium") {
+    ytdl(basicInfo.video_url, {
+      format: _.find(basicInfo.formats, f => f.quality)
     })
-    .on("finish", () => {
-      if (q === "medium") {
-        console.log("if medium");
+      .pipe(fs.createWriteStream(videoFilePath))
+      .on("error", error => {
+        console.log("videoFilePath", { error });
+      })
+      .on("finish", () => {
         res.json({
           downloadUrl: `${
             req.locals.hostUrl
           }/youtube/download/files?filename=${videoFileName}`
         });
-      } else {
-        console.log("else");
-        const songFileName = `${basicInfo.title}.mp3`;
-        const songFilePath = path.join(".", "downloads", songFileName);
-        ffmpeg(videoFilePath)
-          .format("mp3")
-          .on("error", function(err) {
-            console.log("songFilePath", { err });
-          })
-          .on("end", function() {
-            console.log("conversion to mp3 ended");
+      });
+  } else {
+    const promises = [];
 
-            const noaudioFileName = `${basicInfo.title}-noaudio-${q}.mp4`;
-            const noaudioFilePath = path.join(
-              ".",
-              "downloads",
-              noaudioFileName
-            );
-            ytdl(basicInfo.video_url, {
-              format: _.find(basicInfo.formats, f => f.quality_label === q)
-            })
-              .pipe(fs.createWriteStream(noaudioFilePath))
-              .on("error", error => {
-                console.log("noaudioFilePath", { error });
+    const songFileName = `${basicInfo.title}.mp3`;
+    const songFilePath = path.join(".", "downloads", songFileName);
+    promises.push(
+      new Promise((resolve, reject) => {
+        ytdl(basicInfo.video_url, {
+          format: _.find(basicInfo.formats, f => f.quality)
+        })
+          .pipe(fs.createWriteStream(videoFilePath))
+          .on("error", error => {
+            console.log("videoFilePath", { error });
+            reject({ error });
+          })
+          .on("finish", () => {
+            console.log("finished downloading mp4", "converting to mp3");
+            ffmpeg(videoFilePath)
+              .format("mp3")
+              .on("error", function(err) {
+                console.log("songFilePath", { err });
               })
-              .on("finish", () => {
-                const combinedFileName = `${basicInfo.title}_${q}.mp4`;
-                const combinedFilePath = path.join(
-                  ".",
-                  "downloads",
-                  combinedFileName
-                );
-                ffmpeg(songFilePath)
-                  .addInput(noaudioFilePath)
-                  // .outputOptions("-strict", "-2", "-map", "0:0", "-map", "1:0")
-                  .outputOptions("-c:v", "copy", "-c:a", "copy")
-                  .toFormat("mp4")
-                  .on("error", function(err) {
-                    console.log("combinedFilePath", err);
-                  })
-                  .on("progress", e => {
-                    console.log({ e });
-                  })
-                  .on("end", function() {
-                    console.log("merge ended");
+              .on("progress", e => {
+                console.log({ e });
+              })
+              .on("end", function() {
+                console.log("conversion to mp3 ended");
+                resolve();
+              })
+              .save(songFilePath);
+          });
+      })
+    );
 
-                    const outFileName = `${basicInfo.title}_${q}.${format}`;
-                    const outFilePath = path.join(
-                      ".",
-                      "downloads",
-                      outFileName
-                    );
-                    if (format === "mp4") {
-                      res.json({
-                        downloadUrl: `${
-                          req.locals.hostUrl
-                        }/youtube/download/files?filename=${outFileName}`
-                      });
-                    } else {
-                      ffmpeg(combinedFilePath)
-                        .toFormat(format)
-                        .on("error", function(err) {
-                          console.log("outFilePath", err);
-                        })
-                        .on("end", function() {
-                          console.log("conversion ended");
-                          res.json({
-                            downloadUrl: `${
-                              req.locals.hostUrl
-                            }/youtube/download/files?filename=${outFileName}`
-                          });
-                        })
-                        .save(outFilePath);
-                    }
-                  })
-                  .save(combinedFilePath);
-              });
+    const noaudioFileName = `${basicInfo.title}-noaudio-${q}.mp4`;
+    const noaudioFilePath = path.join(".", "downloads", noaudioFileName);
+    promises.push(
+      new Promise((resolve, reject) => {
+        ytdl(basicInfo.video_url, {
+          format: _.find(basicInfo.formats, f => f.quality_label === q)
+        })
+          .pipe(fs.createWriteStream(noaudioFilePath))
+          .on("error", error => {
+            console.log("noaudioFilePath", { error });
+            reject({ error });
           })
-          .save(songFilePath);
-      }
-    });
+          .on("progress", e => {
+            console.log({ e });
+          })
+          .on("finish", () => {
+            console.log("finish downloading noaudio");
+            resolve();
+          });
+      })
+    );
+
+    await Promise.all(promises);
+
+    const combinedFileName = `${basicInfo.title}_${q}.mp4`;
+    const combinedFilePath = path.join(".", "downloads", combinedFileName);
+    ffmpeg(songFilePath)
+      .addInput(noaudioFilePath)
+      // .outputOptions("-strict", "-2", "-map", "0:0", "-map", "1:0")
+      .outputOptions("-c:v", "copy", "-c:a", "copy")
+      .toFormat("mp4")
+      .on("error", function(err) {
+        console.log("combinedFilePath", err);
+      })
+      .on("progress", e => {
+        console.log({ e });
+      })
+      .on("end", function() {
+        console.log("finished merge");
+        res.json({
+          downloadUrl: `${
+            req.locals.hostUrl
+          }/youtube/download/files?filename=${combinedFileName}`
+        });
+      })
+      .save(combinedFilePath);
+  }
 };
 
 exports.downloadAudio = async (req, res) => {

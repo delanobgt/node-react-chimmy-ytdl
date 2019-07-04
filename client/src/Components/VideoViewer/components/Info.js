@@ -38,7 +38,7 @@ const styles = theme => ({
   }
 });
 
-const videoFormats = ["mp4", "m4v", "mov", "flv", "avi", "mpg", "wmv"];
+const videoFormats = ["mp4"];
 const audioFormats = ["mp3", "ogg", "flac", "wav"];
 
 const QRCodeIcon = props => (
@@ -163,7 +163,7 @@ class VideoViewerIndex extends React.Component {
               <div style={{ margin: "1em 0" }}>
                 {tabIndex === 0 && (
                   <div>
-                    <FormControl
+                    {/* <FormControl
                       variant="filled"
                       className={classes.formControl}
                     >
@@ -181,7 +181,7 @@ class VideoViewerIndex extends React.Component {
                           <MenuItem value={f}>{f}</MenuItem>
                         ))}
                       </Select>
-                    </FormControl>
+                    </FormControl> */}
                     <div>
                       {_.chain(info.formats)
                         .filter(f => f.quality_label)
