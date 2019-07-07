@@ -14,6 +14,26 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 const fsExist = util.promisify(fs.exists);
 const fsMkdir = util.promisify(fs.mkdir);
 
+const mailer = require("../services/mailer");
+
+exports.sendShareLinkEmail = async (req, res) => {
+  const { videoUrl, videoName, email } = req.body;
+  try {
+    await mailer.sendShareLinkEmail({
+      recipientEmail: email,
+      payload: {
+        videoUrl,
+        videoName,
+        originUrl: req.locals.originUrl
+      }
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.log({ error });
+    res.status(500).json({ error: { msg: "Please try again!" } });
+  }
+};
+
 exports.validateUrl = async (req, res) => {
   const { url } = req.body;
   const valid = await ytdl.validateURL(url);
@@ -221,10 +241,6 @@ exports.downloadAudio = async (req, res) => {
           console.log("conversion to mp3 ended");
           if (format === "mp3") {
             console.log("if mp3");
-            res.header(
-              "Content-Disposition",
-              `attachment; filename="${songFileName}"`
-            );
             delayed.end(null, {
               downloadUrl: `${
                 req.locals.hostUrl
@@ -246,10 +262,6 @@ exports.downloadAudio = async (req, res) => {
               })
               .on("end", function() {
                 console.log(`conversion to ${format} ended`);
-                res.header(
-                  "Content-Disposition",
-                  `attachment; filename="${outFileName}"`
-                );
                 delayed.end(null, {
                   downloadUrl: `${
                     req.locals.hostUrl
