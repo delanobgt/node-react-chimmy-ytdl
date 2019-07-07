@@ -7,10 +7,11 @@ import {
   Slide,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Typography
+  Typography,
+  DialogTitle
 } from "@material-ui/core";
+
+import QRCodeReader from "react-qr-reader";
 
 const styles = theme => ({
   root: {}
@@ -22,8 +23,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const INITIAL_STATE = {};
 
-class ManualDialog extends React.Component {
+class ScanQRCodeDialog extends React.Component {
   state = INITIAL_STATE;
+
+  handleError = e => {
+    console.log({ e });
+  };
+
+  handleScan = value => {
+    console.log({ value });
+    if (value) {
+      window.location.replace(value);
+    }
+  };
 
   onClose = () => {
     const { name, toggleDialog, reset } = this.props;
@@ -33,6 +45,9 @@ class ManualDialog extends React.Component {
 
   render() {
     const { state, name } = this.props;
+    const payload = state[name];
+
+    if (!payload) return null;
 
     return (
       <Dialog
@@ -42,6 +57,9 @@ class ManualDialog extends React.Component {
         onClose={this.onClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        fullWidth
+        maxWidth="xs"
+        onClose={this.onClose}
       >
         <DialogTitle id="alert-dialog-slide-title">
           <Typography
@@ -49,19 +67,31 @@ class ManualDialog extends React.Component {
             style={{ color: "cornflowerblue" }}
             align="center"
           >
-            <strong>Chimmy Help</strong>
+            <strong>Chimmy QR Scanner</strong>
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-            lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-            lorem lorem lorem
-          </DialogContentText>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <QRCodeReader
+              delay={300}
+              onError={this.handleError}
+              onScan={this.handleScan}
+              style={{ width: "90%" }}
+            />
+          </div>
+          <br />
+          <Typography
+            variant="caption"
+            align="center"
+            style={{ textAlign: "center !important" }}
+          >
+            Use this to scan{" "}
+            <span style={{ color: "cornflowerblue" }}>Chimmy QR Code</span>
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.onClose} color="primary">
-            Got it!
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -69,4 +99,4 @@ class ManualDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(ManualDialog);
+export default withStyles(styles)(ScanQRCodeDialog);

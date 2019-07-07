@@ -16,3 +16,12 @@ export const getBasicInfo = async url => {
   const response = await instance.post("/basicInfo", { url });
   return response.data;
 };
+
+export const sendShareLinkEmail = async ({ videoUrl, videoName, email }) => {
+  const response = await instance.post("/sendShareLinkEmail", {
+    videoUrl,
+    videoName,
+    email
+  });
+  return response.data;
+};

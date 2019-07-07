@@ -1,6 +1,6 @@
 import "./style.css";
 import React, { Fragment } from "react";
-import $ from "jquery";
+import queryString from "query-string";
 import classNames from "classnames";
 import {
   withStyles,
@@ -59,7 +59,13 @@ class SearchBarIndex extends React.Component {
 
   timeoutMethod = null;
 
-  componentDidMount() {}
+  componentDidMount() {
+    const parsed = queryString.parse(window.location.search);
+    console.log({ parsed });
+    if (parsed.videoUrl) {
+      this.handleUrlChange({ target: { value: parsed.videoUrl } });
+    }
+  }
 
   handleUrlChange = e => {
     const url = String(e.target.value || "").trim();

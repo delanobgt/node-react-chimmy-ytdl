@@ -27,6 +27,8 @@ import {
 import queryString from "query-string";
 
 import ChimButton from "../../misc/ChimButton";
+import ShowQRCodeDialog from "../dialogs/ShowQRCodeDialog";
+import ShareDialog from "../dialogs/ShareDialog";
 import DownloadDialog from "../dialogs/DownloadDialog";
 
 const styles = theme => ({
@@ -81,6 +83,12 @@ class VideoViewerIndex extends React.Component {
       url: info.video_url,
       format: "mp3"
     })}`;
+
+    const loc = window.location;
+    const shareUrl = `${loc.protocol}//${loc.host}/?${queryString.stringify({
+      videoUrl: info.video_url
+    })}`;
+    console.log({ shareUrl });
     return (
       <div>
         <Paper elevation={2} className={classes.info}>
@@ -89,9 +97,13 @@ class VideoViewerIndex extends React.Component {
               {info.title}
             </Typography>
             <div>
-              <Tooltip title="Show QR Code" placement="top">
+              <Tooltip title="Chimmy QR Code" placement="top">
                 <IconButton
-                  onClick={() => this.toggleDialog("ManualDialog")(true)}
+                  onClick={() =>
+                    this.toggleDialog("ShowQRCodeDialog")({
+                      url: shareUrl
+                    })
+                  }
                   // style={{ marginRight: "1em" }}
                 >
                   <QRCodeIcon style={{ color: "" }} />
@@ -99,7 +111,12 @@ class VideoViewerIndex extends React.Component {
               </Tooltip>
               <Tooltip title="Share to a friend" placement="top">
                 <IconButton
-                  onClick={() => this.toggleDialog("ManualDialog")(true)}
+                  onClick={() =>
+                    this.toggleDialog("ShareDialog")({
+                      url: shareUrl,
+                      videoName: info.player_response.videoDetails.title
+                    })
+                  }
                 >
                   <ShareIcon style={{ color: "" }} />
                 </IconButton>
@@ -249,6 +266,20 @@ class VideoViewerIndex extends React.Component {
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
+        {this.state["ShowQRCodeDialog"] && (
+          <ShowQRCodeDialog
+            state={this.state}
+            toggleDialog={this.toggleDialog}
+            name="ShowQRCodeDialog"
+          />
+        )}
+        {this.state["ShareDialog"] && (
+          <ShareDialog
+            state={this.state}
+            toggleDialog={this.toggleDialog}
+            name="ShareDialog"
+          />
+        )}
         {this.state["DownloadDialog"] && (
           <DownloadDialog
             state={this.state}

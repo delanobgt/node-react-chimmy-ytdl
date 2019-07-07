@@ -12,7 +12,7 @@ import {
 import { Help as HelpIcon } from "@material-ui/icons";
 
 import ManualDialog from "./dialogs/ManualDialog";
-import QRScannerSvg from "../../res/qrcode-scan.svg";
+import ScanQRCodeDialog from "./dialogs/ScanQRCodeDialog";
 
 const QRScannerIcon = props => (
   <SvgIcon {...props}>
@@ -99,9 +99,9 @@ class FooterIndex extends React.Component {
               </Typography>
             </Grid>
             <Grid item xs={4} style={{ textAlign: "right" }}>
-              <Tooltip title="Scan a QR Code" placement="top">
+              <Tooltip title="Chimmy QR Code" placement="top">
                 <IconButton
-                  onClick={() => this.toggleDialog("ManualDialog")(true)}
+                  onClick={() => this.toggleDialog("ScanQRCodeDialog")(true)}
                   // style={{ marginRight: "1em" }}
                 >
                   <QRScannerIcon style={{ color: "" }} />
@@ -148,7 +148,7 @@ class FooterIndex extends React.Component {
             <Grid item xs={4} style={{ textAlign: "right" }}>
               <Tooltip title="Scan a QR Code" placement="top">
                 <IconButton
-                  onClick={() => this.toggleDialog("ManualDialog")(true)}
+                  onClick={() => this.toggleDialog("ScanQRCodeDialog")(true)}
                   // style={{ marginRight: "1em" }}
                 >
                   <QRScannerIcon style={{ color: "" }} />
@@ -165,6 +165,11 @@ class FooterIndex extends React.Component {
             </Grid>
           </Hidden>
         </Grid>
+        <ScanQRCodeDialog
+          name="ScanQRCodeDialog"
+          state={this.state}
+          toggleDialog={this.toggleDialog}
+        />
         <ManualDialog
           name="ManualDialog"
           state={this.state}
