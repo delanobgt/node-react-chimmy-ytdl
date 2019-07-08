@@ -4,6 +4,9 @@ import { withStyles } from "@material-ui/core/styles";
 
 import MP4Logo from "../../res/mp4.svg";
 import MP3Logo from "../../res/mp3.svg";
+import OGGLogo from "../../res/ogg.png";
+import FLACLogo from "../../res/flac.svg";
+import WAVLogo from "../../res/wav.png";
 
 const styles = theme => ({
   button: {
@@ -15,9 +18,16 @@ const styles = theme => ({
   logo: { marginRight: "0.5em", height: "28px" }
 });
 
+const audioLogos = {
+  mp3: MP3Logo,
+  ogg: OGGLogo,
+  flac: FLACLogo,
+  wav: WAVLogo
+};
+
 class ChimButton extends Component {
   render() {
-    const { classes, type, label, href, style, onClick } = this.props;
+    const { classes, type, label, href, style, onClick, format } = this.props;
 
     return (
       <Button
@@ -30,7 +40,7 @@ class ChimButton extends Component {
         download="download"
       >
         <img
-          src={type == "audio" ? MP3Logo : MP4Logo}
+          src={type == "audio" ? audioLogos[format] : MP4Logo}
           alt=""
           className={classes.logo}
         />{" "}

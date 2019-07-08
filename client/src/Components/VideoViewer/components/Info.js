@@ -149,6 +149,7 @@ class VideoViewerIndex extends React.Component {
               }
               style={{ marginLeft: "1em" }}
               type="audio"
+              format="mp3"
               label="128kbps"
             />
           </div>
@@ -249,6 +250,7 @@ class VideoViewerIndex extends React.Component {
                             style={{ marginRight: "1em", marginTop: "1em" }}
                             key={f}
                             type="audio"
+                            format={f}
                             label={f}
                             onClick={() =>
                               this.toggleDialog("DownloadDialog")({

@@ -68,53 +68,46 @@ server.listen(PORT, () => {
   const fsExist = util.promisify(fs.exists);
   const fsMkdir = util.promisify(fs.mkdir);
 
-  // return;
+  return;
 
-  // const url = "https://www.youtube.com/watch?v=HuC2MUmQaG4";
-  // const basicInfo = await ytdl.getBasicInfo(url);
-  // const keys = [
-  //   "fexp",
-  //   "gapi_hint_params",
-  //   "ssl",
-  //   "innertube_api_version",
-  //   "csi_page_type",
-  //   "c",
-  //   "watermark",
-  //   "status",
-  //   "ucid",
-  //   "hl",
-  //   "account_playback_token",
-  //   "fflags",
-  //   "enablecsi",
-  //   "enabled_engage_types",
-  //   "vss_host",
-  //   "root_ve_type",
-  //   "innertube_api_key",
-  //   "host_language",
-  //   "cver",
-  //   "timestamp",
-  //   "streamingData",
-  //   "innertube_context_client_version",
-  //   "csn",
-  //   "cr",
-  //   "media",
-  //   "age_restricted",
-  //   "",
-  //   "",
-  //   ""
-  // ];
+  const url = "https://www.youtube.com/watch?v=Dd8pYdpyfnw";
+  const basicInfo = await ytdl.getBasicInfo(url);
+  const keys = [
+    "fexp",
+    "gapi_hint_params",
+    "ssl",
+    "innertube_api_version",
+    "csi_page_type",
+    "c",
+    "watermark",
+    "status",
+    "ucid",
+    "hl",
+    "account_playback_token",
+    "fflags",
+    "enablecsi",
+    "enabled_engage_types",
+    "vss_host",
+    "root_ve_type",
+    "innertube_api_key",
+    "host_language",
+    "cver",
+    "timestamp",
+    "streamingData",
+    "innertube_context_client_version",
+    "csn",
+    "cr",
+    "media",
+    "age_restricted",
+    "",
+    "",
+    ""
+  ];
   // const obj = _.omit(basicInfo, keys);
   // obj.formats = _.chain(obj.formats)
-  //   // .filter(f => f.type.includes("mp4") && f.quality_label)
-  //   // .filter(
-  //   //   f =>
-  //   //     f.type.includes("mp4") && f.type.includes("video") && !f.quality_label
-  //   // )
-  //   .filter(f => f.type.includes("mp4") && f.type.includes("video"))
-  //   // .uniqBy(f => f.quality_label)
-  //   // .sort(f => -Number(f.quality_label.slice(0, -1)))
+  //   .filter(f => f.type.includes("audio") && f.type.includes("mp4"))
   //   .value();
-  // console.log(obj.formats);
+  // console.log("hehe", obj.formats);
 
   // fs.writeFile("basic_info.txt", JSON.stringify(obj, 2, 2), err => {
   //   if (err) console.log(err);
@@ -123,6 +116,15 @@ server.listen(PORT, () => {
   // if (!(await fsExist("downloads"))) await fsMkdir("downloads");
   // if (!(await fsExist(path.join("downloads", obj.video_id))))
   //   await fsMkdir(path.join("downloads", obj.video_id));
+
+  // ytdl(obj.video_url, { filter: "audioonly" })
+  //   .on("progress", (a, b, c) => {
+  //     console.log(a, b, c, ((b / c) * 100).toFixed(2));
+  //   })
+  //   .pipe(fs.createWriteStream("./song.mp3"))
+  //   .on("finish", () => {
+  //     console.log("finish", "./song.mp3");
+  //   });
 
   // console.log("start downloading");
   // const promises = _.map(
@@ -187,10 +189,40 @@ server.listen(PORT, () => {
   // });
 
   // return;
-  const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+  // const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
   const ffmpeg = require("fluent-ffmpeg");
-  ffmpeg.setFfmpegPath(ffmpegPath);
-  // ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+  // ffmpeg.setFfmpegPath(ffmpegPath);
+  ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+
+  const songFilePath = "song.mp3";
+  const videoFilePath = "video.mp4";
+  const combinedFileName = `combined.mp4`;
+  const combinedFilePath = path.join(".", combinedFileName);
+  ffmpeg(videoFilePath)
+    .addInput(songFilePath)
+    // .outputOptions("-strict", "-2", "-map", "0:0", "-map", "1:0")
+    // .outputOptions("-c:v", "copy", "-c:a", "copy")
+    .outputOptions("-c:v", "copy", "-c:a", "aac", "-strict", "experimental")
+    // .toFormat("mp4")
+    .on("error", function(err) {
+      console.log("combinedFilePath", err);
+      // res.status(500);
+      // delayed.end(null, {
+      //   error: { msg: "ytdl combine failed" }
+      // });
+    })
+    .on("progress", e => {
+      console.log(e);
+    })
+    .on("end", function() {
+      // console.log("finished merge");
+      // delayed.end(null, {
+      //   downloadUrl: `${
+      //     req.locals.hostUrl
+      //   }/youtube/download/files?filename=${combinedFileName}`
+      // });
+    })
+    .save(combinedFilePath);
 
   // {
   //   const outPath = "./song.mp3";
