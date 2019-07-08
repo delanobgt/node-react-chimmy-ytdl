@@ -125,11 +125,9 @@ exports.downloadVideo = async (req, res) => {
           });
         });
     } else {
-      const promises = [];
-
       const songFileName = `${basicInfo.title}.mp3`;
       const songFilePath = path.join(".", "downloads", songFileName);
-      await new Promise((resolve, reject) => {
+      const promise1 = new Promise((resolve, reject) => {
         console.log(basicInfo.video_url, { filter: "audioonly" });
         ytdl(basicInfo.video_url, { filter: "audioonly" })
           .on("progress", (a, b, c) => {
@@ -148,7 +146,7 @@ exports.downloadVideo = async (req, res) => {
 
       const noaudioFileName = `${basicInfo.title}-noaudio-${q}.mp4`;
       const noaudioFilePath = path.join(".", "downloads", noaudioFileName);
-      await new Promise((resolve, reject) => {
+      const promise2 = new Promise((resolve, reject) => {
         ytdl(basicInfo.video_url, {
           format: _.find(basicInfo.formats, f => f.quality_label === q)
         })
@@ -166,7 +164,7 @@ exports.downloadVideo = async (req, res) => {
           });
       });
 
-      // await Promise.all(promises);
+      await Promise.all([promise1, promise2]);
 
       const combinedFileName = `${basicInfo.title}_${q}.mp4`;
       const combinedFilePath = path.join(".", "downloads", combinedFileName);

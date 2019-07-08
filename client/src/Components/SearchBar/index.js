@@ -184,7 +184,7 @@ class SearchBarIndex extends React.Component {
           </div>
           <Divider className={classes.divider} />
           <div>
-            {checkingStatus === CHECK_IDLE ? (
+            {checkingStatus === CHECK_IDLE || checkingStatus === CHECK_ERROR ? (
               <IconButton
                 onClick={this.handleFormClick}
                 style={{ margin: "0 0.25em" }}
@@ -193,8 +193,6 @@ class SearchBarIndex extends React.Component {
               </IconButton>
             ) : checkingStatus === CHECK_LOADING ? (
               <CircularProgress size={22} style={{ margin: "0 1.2em" }} />
-            ) : checkingStatus === CHECK_ERROR ? (
-              <CloseIcon style={{ color: "red", margin: "0 0.75em" }} />
             ) : checkingStatus === CHECK_VALID ? (
               <CheckIcon style={{ color: "limegreen", margin: "0 0.75em" }} />
             ) : null}

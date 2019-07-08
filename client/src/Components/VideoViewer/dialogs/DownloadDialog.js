@@ -7,7 +7,7 @@ import {
   Slide,
   DialogActions,
   DialogContent,
-  DialogContentText,
+  Typography,
   DialogTitle,
   CircularProgress
 } from "@material-ui/core";
@@ -47,6 +47,7 @@ class DownloadDialog extends React.Component {
 
   render() {
     const { state, name } = this.props;
+    const payload = state[name];
     const { downloadUrl } = this.state;
 
     return (
@@ -57,16 +58,20 @@ class DownloadDialog extends React.Component {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          Processing your file..
+          <Typography variant="h4" align="center">
+            Processing your file..
+          </Typography>
         </DialogTitle>
         <DialogContent>
-          {!downloadUrl ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Button variant="contained" color="primary" href={downloadUrl}>
-              Download
-            </Button>
-          )}
+          <div style={{ textAlign: "center" }}>
+            {!downloadUrl ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Button variant="contained" color="primary" href={downloadUrl}>
+                Download
+              </Button>
+            )}
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.onClose} color="secondary">

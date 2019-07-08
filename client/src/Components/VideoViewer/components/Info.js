@@ -135,7 +135,10 @@ class VideoViewerIndex extends React.Component {
             <ChimButton
               onClick={() =>
                 this.toggleDialog("DownloadDialog")({
-                  url: videoDownloadUrl
+                  url: videoDownloadUrl,
+                  info,
+                  type: "video",
+                  f: "360p"
                 })
               }
               type="video"
@@ -144,7 +147,10 @@ class VideoViewerIndex extends React.Component {
             <ChimButton
               onClick={() =>
                 this.toggleDialog("DownloadDialog")({
-                  url: audioDownloadUrl
+                  url: audioDownloadUrl,
+                  info,
+                  type: "audio",
+                  f: "mp3"
                 })
               }
               style={{ marginLeft: "1em" }}
@@ -222,7 +228,10 @@ class VideoViewerIndex extends React.Component {
                               label={f.quality_label}
                               onClick={() =>
                                 this.toggleDialog("DownloadDialog")({
-                                  url: videoDownloadUrl
+                                  url: videoDownloadUrl,
+                                  info,
+                                  type: "video",
+                                  f: f.quality_label
                                 })
                               }
                             />
@@ -254,7 +263,10 @@ class VideoViewerIndex extends React.Component {
                             label={f}
                             onClick={() =>
                               this.toggleDialog("DownloadDialog")({
-                                url: audioDownloadUrl
+                                url: audioDownloadUrl,
+                                info,
+                                type: "audio",
+                                f
                               })
                             }
                           />
