@@ -72,7 +72,7 @@ class SearchBarIndex extends React.Component {
 
     this.setState({ url });
 
-    if (url.length) {
+    if (url) {
       if (this.timeoutMethod) clearTimeout(this.timeoutMethod);
       this.timeoutMethod = setTimeout(() => this.validateUrl(url), 500);
     }
@@ -81,11 +81,13 @@ class SearchBarIndex extends React.Component {
   handleFormSubmit = e => {
     e.preventDefault();
     const { url } = this.state;
+    if (!url) return;
     this.validateUrl(url);
   };
 
   handleFormClick = () => {
     const { url } = this.state;
+    if (!url) return;
     this.validateUrl(url);
   };
 
@@ -121,7 +123,11 @@ class SearchBarIndex extends React.Component {
   };
 
   loadUrl = async url => {
-    const { onStartLoadingUrl, onFinishLoadingUrl } = this.props;
+    const {
+      onStartLoadingUrl,
+      onFinishLoadingUrl,
+      onErrorLoadingUrl
+    } = this.props;
 
     try {
       if (onStartLoadingUrl) onStartLoadingUrl(url);
@@ -130,10 +136,16 @@ class SearchBarIndex extends React.Component {
       this.setState({ checkingStatus: CHECK_IDLE });
     } catch (error) {
       console.log({ error });
+      if (onErrorLoadingUrl) onErrorLoadingUrl(url);
+      this.setState({ checkingStatus: CHECK_IDLE });
     }
   };
 
   onBlur = () => {};
+
+  handleReset = () => {
+    this.setState({ url: "", fixedUrl: null, urlError: null });
+  };
 
   render() {
     const { classes } = this.props;
@@ -152,9 +164,24 @@ class SearchBarIndex extends React.Component {
               onFocus={() => this.setState({})}
               onBlur={this.onBlur}
               value={this.state.url}
-              disabled={checkingStatus === CHECK_LOADING}
+              disabled={
+                checkingStatus === CHECK_LOADING ||
+                checkingStatus === CHECK_VALID
+              }
             />
           </form>
+          <div>
+            <IconButton
+              onClick={this.handleReset}
+              size="small"
+              disabled={
+                checkingStatus === CHECK_LOADING ||
+                checkingStatus === CHECK_VALID
+              }
+            >
+              <CloseIcon style={{ color: "lightgray", margin: "0" }} />
+            </IconButton>
+          </div>
           <Divider className={classes.divider} />
           <div>
             {checkingStatus === CHECK_IDLE ? (

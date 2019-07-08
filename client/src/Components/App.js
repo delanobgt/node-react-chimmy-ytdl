@@ -35,7 +35,8 @@ const styles = theme => ({
 
 const URL_IDLE = "URL_IDLE",
   URL_LOADING = "URL_LOADING",
-  URL_LOADED = "URL_LOADED";
+  URL_LOADED = "URL_LOADED",
+  URL_ERROR = "URL_ERROR";
 
 class App extends React.Component {
   state = {
@@ -51,6 +52,10 @@ class App extends React.Component {
     this.setState({ urlStatus: URL_LOADED, currentVideoInfo: info });
   };
 
+  onErrorLoadingUrl = url => {
+    this.setState({ urlStatus: URL_ERROR });
+  };
+
   render() {
     const { urlStatus, currentVideoInfo } = this.state;
     const { classes } = this.props;
@@ -63,6 +68,7 @@ class App extends React.Component {
           <SearchBar
             onStartLoadingUrl={this.onStartLoadingUrl}
             onFinishLoadingUrl={this.onFinishLoadingUrl}
+            onErrorLoadingUrl={this.onErrorLoadingUrl}
           />
 
           <div style={{ flex: 1 }} className={classes.mainBody}>
@@ -71,12 +77,48 @@ class App extends React.Component {
                 <div style={{ textAlign: "center" }}>
                   <img alt="" src={ChimmyLoading} />
                 </div>
+                <Typography variant="h5" align="center">
+                  Grabbing your video..
+                </Typography>
               </Fade>
             ) : urlStatus === URL_LOADED ? (
               <Fade>
                 <VideoViewer info={currentVideoInfo} />
               </Fade>
-            ) : null}
+            ) : urlStatus === URL_ERROR ? (
+              <div>
+                <div style={{ textAlign: "center" }}>
+                  <img alt="" src={ChimmyLoading} />
+                </div>
+                <Typography variant="h5" align="center">
+                  I can't grab your video. Please try again :(
+                </Typography>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  height: "100%"
+                }}
+              >
+                <div style={{ width: "50%", maxWidth: "250px" }}>
+                  <Typography variant="h5" style={{ fontStyle: "italic" }}>
+                    Hi there! <br /> Find a Youtube video and paste the link in
+                    above textbox
+                  </Typography>
+                </div>
+                <div style={{ width: "30%", maxWidth: "150px" }}>
+                  <img
+                    alt=""
+                    src={require("../res/chimmy1.png")}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <Footer />
