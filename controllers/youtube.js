@@ -133,7 +133,7 @@ exports.downloadVideo = async (req, res) => {
         console.log(basicInfo.video_url, { filter: "audioonly" });
         ytdl(basicInfo.video_url, { filter: "audioonly" })
           .on("progress", (a, b, c) => {
-            console.log(a, b, c, ((b / c) * 100).toFixed(2));
+            console.log(songFilePath, a, b, c, ((b / c) * 100).toFixed(2));
           })
           .pipe(fs.createWriteStream(songFilePath))
           .on("error", error => {
@@ -153,7 +153,7 @@ exports.downloadVideo = async (req, res) => {
           format: _.find(basicInfo.formats, f => f.quality_label === q)
         })
           .on("progress", (a, b, c) => {
-            console.log(a, b, c, ((b / c) * 100).toFixed(2));
+            console.log(noaudioFilePath, a, b, c, ((b / c) * 100).toFixed(2));
           })
           .pipe(fs.createWriteStream(noaudioFilePath))
           .on("error", error => {
@@ -182,7 +182,7 @@ exports.downloadVideo = async (req, res) => {
           });
         })
         .on("progress", e => {
-          console.log(e);
+          console.log(combinedFilePath, e);
         })
         .on("end", function() {
           console.log("finished merge");
@@ -223,7 +223,7 @@ exports.downloadAudio = async (req, res) => {
   console.log("start");
   ytdl(basicInfo.video_url, { filter: "audioonly" })
     .on("progress", (a, b, c) => {
-      console.log(a, b, c, ((b / c) * 100).toFixed(2));
+      console.log(songFilePath, a, b, c, ((b / c) * 100).toFixed(2));
     })
     .pipe(fs.createWriteStream(songFilePath))
     .on("error", function(err) {
