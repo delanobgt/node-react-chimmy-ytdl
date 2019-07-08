@@ -8,7 +8,8 @@ import {
   DialogActions,
   DialogContent,
   Typography,
-  DialogTitle
+  DialogTitle,
+  CircularProgress
 } from "@material-ui/core";
 
 import QRCodeReader from "react-qr-reader";
@@ -21,7 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = { value: null };
 
 class ScanQRCodeDialog extends React.Component {
   state = INITIAL_STATE;
@@ -33,7 +34,8 @@ class ScanQRCodeDialog extends React.Component {
   handleScan = value => {
     console.log({ value });
     if (value) {
-      window.location.replace(value);
+      this.setState({ value });
+      window.location.href = value;
     }
   };
 
@@ -46,6 +48,7 @@ class ScanQRCodeDialog extends React.Component {
   render() {
     const { state, name } = this.props;
     const payload = state[name];
+    const { value } = this.state;
 
     if (!payload) return null;
 
@@ -71,13 +74,28 @@ class ScanQRCodeDialog extends React.Component {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <QRCodeReader
-              delay={300}
-              onError={this.handleError}
-              onScan={this.handleScan}
-              style={{ width: "90%" }}
-            />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "3em 0"
+            }}
+          >
+            {value ? (
+              <div style={{ textAlign: "center" }}>
+                <CircularProgress size={36} />
+                <Typography variant="subtitle1" align="center">
+                  Redirecting..
+                </Typography>
+              </div>
+            ) : (
+              <QRCodeReader
+                delay={300}
+                onError={this.handleError}
+                onScan={this.handleScan}
+                style={{ width: "90%" }}
+              />
+            )}
           </div>
           <br />
           <Typography

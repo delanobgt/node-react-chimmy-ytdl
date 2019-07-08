@@ -58,7 +58,7 @@ class DownloadDialog extends React.Component {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          <Typography variant="h4" align="center">
+          <Typography variant="h5" align="center">
             Processing your file..
           </Typography>
         </DialogTitle>

@@ -128,8 +128,7 @@ exports.downloadVideo = async (req, res) => {
       const songFileName = `${basicInfo.title}.mp3`;
       const songFilePath = path.join(".", "downloads", songFileName);
       const promise1 = new Promise((resolve, reject) => {
-        console.log(basicInfo.video_url, { filter: "audioonly" });
-        ytdl(basicInfo.video_url, { filter: "audioonly" })
+        ytdl(basicInfo.video_url, { filter: "audio" })
           .on("progress", (a, b, c) => {
             console.log(songFilePath, a, b, c, ((b / c) * 100).toFixed(2));
           })
@@ -219,7 +218,7 @@ exports.downloadAudio = async (req, res) => {
   const songFilePath = path.join(".", "downloads", songFileName);
 
   console.log("start");
-  ytdl(basicInfo.video_url, { filter: "audioonly" })
+  ytdl(basicInfo.video_url, { filter: "audio" })
     .on("progress", (a, b, c) => {
       console.log(songFilePath, a, b, c, ((b / c) * 100).toFixed(2));
     })
