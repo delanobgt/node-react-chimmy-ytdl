@@ -190,39 +190,38 @@ server.listen(PORT, () => {
 
   // return;
   // const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
-  const ffmpeg = require("fluent-ffmpeg");
+  // const ffmpeg = require("fluent-ffmpeg");
   // ffmpeg.setFfmpegPath(ffmpegPath);
-  ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
 
-  const songFilePath = "song.mp3";
-  const videoFilePath = "video.mp4";
-  const combinedFileName = `combined.mp4`;
-  const combinedFilePath = path.join(".", combinedFileName);
-  ffmpeg(videoFilePath)
-    .addInput(songFilePath)
-    // .outputOptions("-strict", "-2", "-map", "0:0", "-map", "1:0")
-    // .outputOptions("-c:v", "copy", "-c:a", "copy")
-    .outputOptions("-c:v", "copy", "-c:a", "aac", "-strict", "experimental")
-    // .toFormat("mp4")
-    .on("error", function(err) {
-      console.log("combinedFilePath", err);
-      // res.status(500);
-      // delayed.end(null, {
-      //   error: { msg: "ytdl combine failed" }
-      // });
-    })
-    .on("progress", e => {
-      console.log(e);
-    })
-    .on("end", function() {
-      // console.log("finished merge");
-      // delayed.end(null, {
-      //   downloadUrl: `${
-      //     req.locals.hostUrl
-      //   }/youtube/download/files?filename=${combinedFileName}`
-      // });
-    })
-    .save(combinedFilePath);
+  // const songFilePath = "song.mp3";
+  // const videoFilePath = "video.mp4";
+  // const combinedFileName = `combined.mp4`;
+  // const combinedFilePath = path.join(".", combinedFileName);
+  // ffmpeg(videoFilePath)
+  //   .addInput(songFilePath)
+  //   // .outputOptions("-strict", "-2", "-map", "0:0", "-map", "1:0")
+  //   // .outputOptions("-c:v", "copy", "-c:a", "copy")
+  //   .outputOptions("-c:v", "copy", "-c:a", "aac", "-strict", "experimental")
+  //   // .toFormat("mp4")
+  //   .on("error", function(err) {
+  //     console.log("combinedFilePath", err);
+  //     // res.status(500);
+  //     // delayed.end(null, {
+  //     //   error: { msg: "ytdl combine failed" }
+  //     // });
+  //   })
+  //   .on("progress", e => {
+  //     console.log(e);
+  //   })
+  //   .on("end", function() {
+  //     // console.log("finished merge");
+  //     // delayed.end(null, {
+  //     //   downloadUrl: `${
+  //     //     req.locals.hostUrl
+  //     //   }/youtube/download/files?filename=${combinedFileName}`
+  //     // });
+  //   })
+  //   .save(combinedFilePath);
 
   // {
   //   const outPath = "./song.mp3";

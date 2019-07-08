@@ -6,10 +6,9 @@ const fs = require("fs");
 const path = require("path");
 const DelayedResponse = require("http-delayed-response");
 
-// const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
-// ffmpeg.setFfmpegPath(ffmpegPath);
-ffmpeg.setFfmpegPath("C:/ffmpeg/bin/ffmpeg.exe");
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const fsExist = util.promisify(fs.exists);
 const fsMkdir = util.promisify(fs.mkdir);
