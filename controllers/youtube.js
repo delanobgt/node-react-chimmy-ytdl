@@ -214,7 +214,7 @@ exports.downloadAudio = async (req, res) => {
     .replace(/[^\x20-\x7E]+/g, "")
     .replace(/[^a-zA-Z0-9-_]/g, "_");
 
-  const songFileName = `${basicInfo.title}.mp3`;
+  const songFileName = `${basicInfo.title}-raw.mp3`;
   const songFilePath = path.join(".", "downloads", songFileName);
 
   console.log("start");
@@ -232,7 +232,7 @@ exports.downloadAudio = async (req, res) => {
     })
     .on("finish", function() {
       console.log("conversion to mp3 ended");
-      if (format === "mp3") {
+      if (false && format === "mp3") {
         console.log("if mp3");
         delayed.end(null, {
           downloadUrl: `${
