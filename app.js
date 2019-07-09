@@ -107,7 +107,7 @@ server.listen(PORT, () => {
   obj.formats = _.chain(obj.formats)
     .filter(f => f.type.includes("audio") && f.type.includes("mp4"))
     .value();
-  console.log("hehe", obj.formats);
+  // console.log("hehe", obj.formats);
 
   // fs.writeFile("basic_info.txt", JSON.stringify(obj, 2, 2), err => {
   //   if (err) console.log(err);
@@ -117,14 +117,14 @@ server.listen(PORT, () => {
   // if (!(await fsExist(path.join("downloads", obj.video_id))))
   //   await fsMkdir(path.join("downloads", obj.video_id));
 
-  ytdl(obj.video_url, { filter: "audio" })
-    .on("progress", (a, b, c) => {
-      console.log(a, b, c, ((b / c) * 100).toFixed(2));
-    })
-    .pipe(fs.createWriteStream("./song.mp3"))
-    .on("finish", () => {
-      console.log("finish", "./song.mp3");
-    });
+  // ytdl(obj.video_url, { filter: "audio" })
+  //   .on("progress", (a, b, c) => {
+  //     console.log(a, b, c, ((b / c) * 100).toFixed(2));
+  //   })
+  //   .pipe(fs.createWriteStream("./song.mp3"))
+  //   .on("finish", () => {
+  //     console.log("finish", "./song.mp3");
+  //   });
 
   // console.log("start downloading");
   // const promises = _.map(

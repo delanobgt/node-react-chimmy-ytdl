@@ -54,9 +54,18 @@ class ManualDialog extends React.Component {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-            lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-            lorem lorem lorem
+            <Typography variant="subtitle1">
+              1. Find a Youtube video and paste the URL link at the textbox
+              located above
+            </Typography>
+            <br />
+            <Typography variant="subtitle1">
+              2. Wait for the grabbing process to finish
+            </Typography>
+            <br />
+            <Typography variant="subtitle1">
+              3. Download your selected type (Audio/Video) and format.
+            </Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

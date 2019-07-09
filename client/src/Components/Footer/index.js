@@ -157,7 +157,7 @@ class FooterIndex extends React.Component {
               <Tooltip title="How to use" placement="top">
                 <IconButton
                   onClick={() => this.toggleDialog("ManualDialog")(true)}
-                  style={{ marginRight: "1em" }}
+                  style={{ marginRight: "0.5em" }}
                 >
                   <HelpIcon style={{ color: "" }} />
                 </IconButton>

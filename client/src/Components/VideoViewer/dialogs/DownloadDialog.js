@@ -8,11 +8,12 @@ import {
   DialogActions,
   DialogContent,
   Typography,
-  DialogTitle,
-  CircularProgress
+  DialogTitle
 } from "@material-ui/core";
 
 import axios from "axios";
+
+import ChimmyLoading from "../../../res/gif2.gif";
 
 const styles = theme => ({
   root: {}
@@ -22,7 +23,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const INITIAL_STATE = { downloadUrl: null };
+const LOADING = "LOADING",
+  ERROR = "ERROR",
+  DONE = "DONE";
+
+const INITIAL_STATE = { downloadUrl: null, loadingStatus: DONE };
 
 class DownloadDialog extends React.Component {
   state = INITIAL_STATE;
@@ -34,21 +39,35 @@ class DownloadDialog extends React.Component {
   };
 
   async componentDidMount() {
+    await this.loadUrl();
+  }
+
+  async loadUrl() {
     const { state, name, url } = this.props;
     const payload = state[name];
     try {
+      this.setState({ loadingStatus: LOADING });
       const response = await axios.get(payload.url);
       console.log(response.data.downloadUrl);
-      this.setState({ downloadUrl: response.data.downloadUrl });
+      this.setState({
+        downloadUrl: response.data.downloadUrl,
+        loadingStatus: DONE
+      });
     } catch (error) {
       console.log({ error });
+      this.setState({ loadingStatus: ERROR });
     }
   }
 
   render() {
     const { state, name } = this.props;
     const payload = state[name];
-    const { downloadUrl } = this.state;
+    const { downloadUrl, loadingStatus } = this.state;
+
+    const fileExt = (() => {
+      if (payload.type === "audio") return `(${payload.f.toUpperCase()})`;
+      else return `(MP4 ${payload.f})`;
+    })();
 
     return (
       <Dialog
@@ -63,12 +82,36 @@ class DownloadDialog extends React.Component {
           </Typography>
         </DialogTitle>
         <DialogContent>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            style={{ marginBottom: "1em", color: "cornflowerblue" }}
+          >
+            {payload.info.player_response.videoDetails.title} {fileExt}
+          </Typography>
           <div style={{ textAlign: "center" }}>
-            {!downloadUrl ? (
-              <CircularProgress size={24} />
-            ) : (
+            {loadingStatus === LOADING ? (
+              <div>
+                <div style={{ textAlign: "center", marginBottom: "1em" }}>
+                  <img
+                    alt=""
+                    src={ChimmyLoading}
+                    style={{ width: "70%", maxWidth: "180px" }}
+                  />
+                </div>
+                {/* <CircularProgress size={36} /> */}
+              </div>
+            ) : loadingStatus === DONE ? (
               <Button variant="contained" color="primary" href={downloadUrl}>
                 Download
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={this.loadUrl}
+              >
+                Retry
               </Button>
             )}
           </div>

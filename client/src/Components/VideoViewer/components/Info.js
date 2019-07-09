@@ -40,6 +40,24 @@ const styles = theme => ({
   }
 });
 
+function _toHHMMSS(milliseconds) {
+  if (
+    milliseconds === null ||
+    milliseconds === undefined ||
+    typeof milliseconds !== "number"
+  )
+    return null;
+  function pad2(val) {
+    return val <= 9 ? "0" + val : val;
+  }
+  const h = Math.floor(milliseconds / (60 * 60 * 1000));
+  milliseconds %= 60 * 60 * 1000;
+  const m = Math.floor(milliseconds / (60 * 1000));
+  milliseconds %= 60 * 1000;
+  const s = Math.floor(milliseconds / 1000);
+  return `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+}
+
 const videoFormats = ["mp4"];
 const audioFormats = ["mp3", "ogg", "flac", "wav"];
 
@@ -88,14 +106,27 @@ class VideoViewerIndex extends React.Component {
     const shareUrl = `${loc.protocol}//${loc.host}/?${queryString.stringify({
       videoUrl: info.video_url
     })}`;
-    console.log({ shareUrl });
+    // console.log({ shareUrl });
+
+    const millisecond =
+      Number(info.player_response.videoDetails.lengthSeconds) * 1000;
+    const hhmmss = _toHHMMSS(millisecond);
+
     return (
       <div>
         <Paper elevation={2} className={classes.info}>
           <div style={{ display: "flex", alignItems: "flex-start" }}>
-            <Typography variant="h5" style={{ flex: 1 }}>
-              {info.title}
-            </Typography>
+            <div style={{ flex: 1 }}>
+              <Typography variant="h5">{info.title}</Typography>
+              <Typography variant="caption">[{hhmmss}]</Typography>
+              <br />
+              <Typography variant="caption">
+                Uploaded by{" "}
+                <span style={{ color: "cornflowerblue" }}>
+                  {info.author.name}
+                </span>
+              </Typography>
+            </div>
             <div>
               <Tooltip title="Chimmy QR Code" placement="top">
                 <IconButton
@@ -123,10 +154,7 @@ class VideoViewerIndex extends React.Component {
               </Tooltip>
             </div>
           </div>
-          <Typography variant="caption">
-            Uploaded by{" "}
-            <span style={{ color: "cornflowerblue" }}>{info.author.name}</span>
-          </Typography>
+
           <div style={{ marginTop: "1.25em", marginBottom: "1em" }}>
             <Typography variant="caption" style={{ marginBottom: "0.5em" }}>
               Recommended format

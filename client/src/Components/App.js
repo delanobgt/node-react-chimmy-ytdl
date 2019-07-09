@@ -7,6 +7,7 @@ import classNames from "classnames";
 
 import ChimButton from "./misc/ChimButton";
 import ChimmyLoading from "../res/gif2.gif";
+import ChimmySleep from "../res/sleep.png";
 import Header from "./Header";
 import SearchBar from "./SearchBar";
 import VideoViewer from "./VideoViewer";
@@ -74,24 +75,54 @@ class App extends React.Component {
           <div style={{ flex: 1 }} className={classes.mainBody}>
             {urlStatus === URL_LOADING ? (
               <Fade>
-                <div style={{ textAlign: "center" }}>
-                  <img alt="" src={ChimmyLoading} />
+                <div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column"
+                  }}
+                >
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      alt=""
+                      src={ChimmyLoading}
+                      style={{ width: "65%", maxWidth: "240px" }}
+                    />
+                  </div>
+                  <Typography variant="h6" align="center">
+                    Grabbing your video..
+                  </Typography>
                 </div>
-                <Typography variant="h5" align="center">
-                  Grabbing your video..
-                </Typography>
               </Fade>
             ) : urlStatus === URL_LOADED ? (
               <Fade>
                 <VideoViewer info={currentVideoInfo} />
               </Fade>
             ) : urlStatus === URL_ERROR ? (
-              <div>
-                <div style={{ textAlign: "center" }}>
-                  <img alt="" src={ChimmyLoading} />
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column"
+                }}
+              >
+                <div style={{ textAlign: "center", marginBottom: "1em" }}>
+                  <img
+                    alt=""
+                    src={ChimmySleep}
+                    style={{ width: "65%", maxWidth: "260px" }}
+                  />
                 </div>
-                <Typography variant="h5" align="center">
-                  I can't grab your video. Please try again :(
+                <Typography variant="h6" align="center">
+                  I can't grab your video.
+                  <br />
+                  Please try again :(
                 </Typography>
               </div>
             ) : (
